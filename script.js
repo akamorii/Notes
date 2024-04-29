@@ -11,11 +11,11 @@ let database = [
 let notes = 0;
 const root = document.getElementById('mainn')
 
-function createNote (text) {
+function createNote (text, notes_num=notes) {
     let note = document.createElement('div');
     note.classList.add(`note`, `note${notes}`);
     // note.setAttribute('id', `note${notes}`)
-    note.innerHTML = `<p><span class="span${notes}">${notes}.<span/> ${text}</p> <div id="del_btn${notes}" class="del_btn" onclick="dele(this)"> <div id="icon"></div> </div>`
+    note.innerHTML = `<p><span class="span${notes}">${notes_num}.<span/> ${text}</p> <div id="del_btn${notes}" class="del_btn" onclick="dele(this)"> <div id="icon"></div> </div>`
     root.appendChild(note);
     // console.log('+++');
     notes++;
@@ -50,7 +50,8 @@ function func () {
     let txt = document.getElementById('popup_input')
     // console.log(txt.value);
     // root.appendChild(createNote(txt.value));
-    createNote(txt.value)
+    // createNote(txt.value)
+    database.push({name:txt.value})
     // console.log(popup);
     document.querySelector('body').removeChild(document.getElementById('popup'));
     // if (notes > 2) {
@@ -60,6 +61,7 @@ function func () {
     // }
     // del = document.getElementsByClassName('del_btn')
     // findDel();
+    render();
 }
 
 function dele (zxc) {
@@ -72,7 +74,9 @@ function dele (zxc) {
         // console.log(String(123));
         let str_id = String(zxc.id);
         let find_id = (str_id[str_id.length-1]);
-        // console.log(find_id);
+        console.log(find_id);
+        console.log(zxc);
+        console.log(notes);
         // // console.log(String(zxc.id)[-1]);
         // console.log(document.querySelector(`.note${find_id}`));
     // console.log(i);
@@ -81,18 +85,21 @@ function dele (zxc) {
     let noteArr = document.getElementsByClassName('note');
 
     let lastNum = 0;
-    for (let i of noteArr) {
-        if (lastNum == String(i.classList[1])[String(i.classList[1]).length-1]) {
+    // for (let i of noteArr) {
+    //     if (parent(lastNum) == String(i.classList[1])[String(i.classList[1]).length-1]) {
 
-        }
-        lastNum = String(i.classList[1])[String(i.classList[1]).length-1];
+    //     }            
+    //     lastNum = String(i.classList[1])[String(i.classList[1]).length-1];
         
-        console.log(i.outerHTML);
-    }
+    //     console.log(i.outerHTML);
+    // }
+    database.splice(parseInt(find_id)-1,1)
+    console.log(find_id-1);
+    console.log(database);
 
-
-    root.removeChild(deleted_elem);
+    // root.removeChild(deleted_elem);
     notes--;
+    render();
 }
 
 // for (let el of del) {
@@ -123,5 +130,12 @@ let btn = document.querySelector("#add")
 btn.addEventListener('click', displayPopup);
 
 function render () {
-
-}
+    root.innerHTML = ''
+    notes = 1
+    let i = 1;
+    for (let db of database) {
+        createNote(db.name, i)
+        i++;
+    }
+};
+render();
