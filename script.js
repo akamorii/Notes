@@ -15,7 +15,7 @@ function createNote (text) {
     let note = document.createElement('div');
     note.classList.add(`note`, `note${notes}`);
     // note.setAttribute('id', `note${notes}`)
-    note.innerHTML = `<p>${notes}. ${text}</p> <div id="del_btn${notes}" class="del_btn" onclick="dele(this)"> <div id="icon"></div> </div>`
+    note.innerHTML = `<p><span class="span${notes}">${notes}.<span/> ${text}</p> <div id="del_btn${notes}" class="del_btn" onclick="dele(this)"> <div id="icon"></div> </div>`
     root.appendChild(note);
     // console.log('+++');
     notes++;
@@ -31,6 +31,10 @@ function createPopup () {
     return popup
     
 }
+
+
+
+
 // let del;
 let findDel = function (){
     del = document.querySelectorAll('.del_btn')
@@ -60,7 +64,7 @@ function func () {
 
 function dele (zxc) {
     // let del_note = document.getElementsByClassName(`note${zxc.id[-1]}`);
-    let del_note = document.querySelector(`.note${notes}`)
+    let del_note = document.querySelector(`.note${notes}`);
     // console.log(`.note${notes-1}`);
     // console.log(del_note);
     // console.log(del_note);
@@ -68,12 +72,26 @@ function dele (zxc) {
         // console.log(String(123));
         let str_id = String(zxc.id);
         let find_id = (str_id[str_id.length-1]);
-        console.log(find_id);
-        // console.log(String(zxc.id)[-1]);
-        console.log(document.querySelector(`.note${find_id}`));
+        // console.log(find_id);
+        // // console.log(String(zxc.id)[-1]);
+        // console.log(document.querySelector(`.note${find_id}`));
     // console.log(i);
     // }
-    root.removeChild(document.querySelector(`.note${find_id}`))
+    let deleted_elem = document.querySelector(`.note${find_id}`);
+    let noteArr = document.getElementsByClassName('note');
+
+    let lastNum = 0;
+    for (let i of noteArr) {
+        if (lastNum == String(i.classList[1])[String(i.classList[1]).length-1]) {
+
+        }
+        lastNum = String(i.classList[1])[String(i.classList[1]).length-1];
+        
+        console.log(i.outerHTML);
+    }
+
+
+    root.removeChild(deleted_elem);
     notes--;
 }
 
